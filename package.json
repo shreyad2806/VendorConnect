@@ -1,0 +1,39 @@
+{
+  "name": "vendorconnect",
+  "version": "1.0.0",
+  "description": "B2B platform connecting street vendors with suppliers",
+  "main": "index.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "install-all": "npm install && cd b2b-backend && npm install && cd ../Frontend && npm install",
+    "start": "node start.js",
+    "start-backend": "cd b2b-backend && npm run dev",
+    "start-frontend": "cd Frontend && npm start",
+    "build": "cd Frontend && npm run build",
+    "dev": "concurrently \"npm run dev-backend\" \"npm run dev-frontend\"",
+    "dev-backend": "cd b2b-backend && npm run dev",
+    "dev-frontend": "cd Frontend && npm start",
+    "setup-db": "cd b2b-backend && npm run init-db",
+    "import-data": "cd b2b-backend && npm run import-data",
+    "test-connection": "node test-connection.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "b2b",
+    "vendors",
+    "suppliers",
+    "group-buying",
+    "react",
+    "nodejs",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+} 

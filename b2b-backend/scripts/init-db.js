@@ -1,108 +1,165 @@
 const { sequelize } = require('../config/database');
+const fs = require('fs');
+const path = require('path');
+
+// Import all models
 const User = require('../models/User');
 const Product = require('../models/Product');
-const Order = require('../models/Order');
-const OrderItem = require('../models/OrderItem');
 const GroupOrder = require('../models/GroupOrder');
-const GroupOrderItem = require('../models/GroupOrderItem');
-const Transport = require('../models/Transport');
-const TransportParticipant = require('../models/TransportParticipant');
+const VendorOrder = require('../models/VendorOrder');
+const SupplierBid = require('../models/SupplierBid');
+const Vehicle = require('../models/Vehicle');
+const Delivery = require('../models/Delivery');
+const Feedback = require('../models/Feedback');
 
-// Sample data
-const users = [
-  {
-    name: 'Vendor User',
-    email: 'vendor@example.com',
-    password: 'password123',
-    phone: '1234567890',
-    address: '123 Vendor St',
-    city: 'Vendor City',
-    state: 'VS',
-    pincode: '12345',
-    role: 'vendor',
-    businessName: 'Vendor Business',
-    businessType: 'Retail',
-    isVerified: true,
-    latitude: 28.6139,
-    longitude: 77.2090
-  },
-  {
-    name: 'Supplier User',
-    email: 'supplier@example.com',
-    password: 'password123',
-    phone: '0987654321',
-    address: '456 Supplier St',
-    city: 'Supplier City',
-    state: 'SS',
-    pincode: '54321',
-    role: 'supplier',
-    businessName: 'Supplier Business',
-    businessType: 'Wholesale',
-    isVerified: true,
-    latitude: 28.7041,
-    longitude: 77.1025
-  }
-];
-
-const products = [
-  {
-    name: 'Tomatoes',
-    description: 'Fresh tomatoes',
-    category: 'Vegetable',
-    subCategory: 'Fresh Produce',
-    unit: 'kg',
-    minOrderQuantity: 5,
-    price: 40.00,
-    discountedPrice: 35.00,
-    stock: 100,
-    images: JSON.stringify(['tomato.jpg']),
-    isAvailable: true,
-    supplierId: 2,
-    isFeatured: true,
-    rating: 4.5,
-    reviewCount: 10
-  },
-  {
-    name: 'Potatoes',
-    description: 'Fresh potatoes',
-    category: 'Vegetable',
-    subCategory: 'Root Vegetables',
-    unit: 'kg',
-    minOrderQuantity: 10,
-    price: 25.00,
-    discountedPrice: 20.00,
-    stock: 200,
-    images: JSON.stringify(['potato.jpg']),
-    isAvailable: true,
-    supplierId: 2,
-    isFeatured: false,
-    rating: 4.2,
-    reviewCount: 8
-  }
-];
-
-// Initialize database
-async function initDb() {
+async function initializeDatabase() {
   try {
-    // Sync all models
+    console.log('🔄 Initializing database...');
+    
+    // Test connection
+    await sequelize.authenticate();
+    console.log('✅ Database connection established successfully.');
+    
+    // Sync all models with database
     await sequelize.sync({ force: true });
-    console.log('Database synchronized');
+    console.log('✅ Database tables created successfully.');
     
-    // Create users
-    const createdUsers = await User.bulkCreate(users);
-    console.log(`Created ${createdUsers.length} users`);
+    // Create sample data
+    await createSampleData();
+    console.log('✅ Sample data created successfully.');
     
-    // Create products
-    const createdProducts = await Product.bulkCreate(products);
-    console.log(`Created ${createdProducts.length} products`);
+    console.log('🎉 Database initialization completed!');
     
-    console.log('Database initialized successfully');
   } catch (error) {
-    console.error('Error initializing database:', error);
-  } finally {
-    await sequelize.close();
+    console.error('❌ Database initialization failed:', error);
+    throw error;
   }
 }
 
-// Run the initialization
-initDb(); 
+async function createSampleData() {
+  try {
+    // Create sample users
+    const users = await User.bulkCreate([
+      {
+        name: 'John Vendor',
+        phone: '+1234567890',
+        role: 'vendor',
+        location: 'New York, NY',
+        password_hash: '$2b$10$example.hash.for.testing'
+      },
+      {
+        name: 'Sarah Supplier',
+        phone: '+1987654321',
+        role: 'supplier',
+        location: 'Los Angeles, CA',
+        password_hash: '$2b$10$example.hash.for.testing'
+      },
+      {
+        name: 'Mike Vendor',
+        phone: '+1122334455',
+        role: 'vendor',
+        location: 'Chicago, IL',
+        password_hash: '$2b$10$example.hash.for.testing'
+      }
+    ]);
+    
+    // Create sample products
+    const products = await Product.bulkCreate([
+      {
+        name: 'Fresh Tomatoes',
+        unit: 'kg',
+        category: 'Vegetables'
+      },
+      {
+        name: 'Organic Apples',
+        unit: 'kg',
+        category: 'Fruits'
+      },
+      {
+        name: 'Whole Milk',
+        unit: 'liter',
+        category: 'Dairy'
+      },
+      {
+        name: 'Fresh Bread',
+        unit: 'piece',
+        category: 'Bakery'
+      }
+    ]);
+    
+    // Create sample group orders
+    const groupOrders = await GroupOrder.bulkCreate([
+      {
+        product_id: 1,
+        total_quantity: 100,
+        order_status: 'pending',
+        delivery_area: 'New York, NY'
+      },
+      {
+        product_id: 2,
+        total_quantity: 50,
+        order_status: 'matched',
+        delivery_area: 'Chicago, IL'
+      }
+    ]);
+    
+    // Create sample vendor orders
+    const vendorOrders = await VendorOrder.bulkCreate([
+      {
+        user_id: 1,
+        group_order_id: 1,
+        quantity: 20,
+        price_per_unit: 2.50,
+        delivery_address: '123 Main St, New York, NY'
+      },
+      {
+        user_id: 3,
+        group_order_id: 1,
+        quantity: 15,
+        price_per_unit: 2.50,
+        delivery_address: '456 Oak Ave, New York, NY'
+      }
+    ]);
+    
+    // Create sample vehicles
+    const vehicles = await Vehicle.bulkCreate([
+      {
+        type: 'Refrigerated Truck',
+        capacity: 5000,
+        driver_name: 'David Driver',
+        contact: '+1555666777'
+      },
+      {
+        type: 'Van',
+        capacity: 1000,
+        driver_name: 'Lisa Driver',
+        contact: '+1888999000'
+      }
+    ]);
+    
+    console.log(`✅ Created ${users.length} users`);
+    console.log(`✅ Created ${products.length} products`);
+    console.log(`✅ Created ${groupOrders.length} group orders`);
+    console.log(`✅ Created ${vendorOrders.length} vendor orders`);
+    console.log(`✅ Created ${vehicles.length} vehicles`);
+    
+  } catch (error) {
+    console.error('❌ Error creating sample data:', error);
+    throw error;
+  }
+}
+
+// Run initialization if this file is executed directly
+if (require.main === module) {
+  initializeDatabase()
+    .then(() => {
+      console.log('🎉 Database setup completed successfully!');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('❌ Database setup failed:', error);
+      process.exit(1);
+    });
+}
+
+module.exports = { initializeDatabase }; 
