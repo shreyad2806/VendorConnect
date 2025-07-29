@@ -1,0 +1,233 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Custom button styles to extend Bootstrap */
+.btn-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-custom:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.5);
+}
+
+.btn-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn-custom-primary {
+  background-color: #0284c7;
+  color: #ffffff;
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-custom-primary:hover {
+  background-color: #0369a1;
+  color: #ffffff;
+}
+
+.btn-custom-secondary {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-custom-secondary:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-custom-outline {
+  border: 1px solid #d1d5db;
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: #374151;
+}
+
+.btn-custom-outline:hover {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.btn-custom-ghost {
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: #374151;
+  border: none;
+}
+
+.btn-custom-ghost:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.btn-sm-custom {
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.btn-lg-custom {
+  height: 2.75rem;
+  padding: 0 2rem;
+  border-radius: 0.375rem;
+}
+
+/* Custom input styles to extend Bootstrap */
+.form-control-custom {
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control-custom::placeholder {
+  color: #9ca3af;
+}
+
+.form-control-custom:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
+}
+
+.form-control-custom:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Custom card styles to extend Bootstrap */
+.card-custom {
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card-header-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-title-custom {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.card-description-custom {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.card-content-custom {
+  padding: 1.5rem;
+}
+
+.card-footer-custom {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  padding-top: 0;
+}
+
+/* Utility classes */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.container-sm-custom {
+  max-width: 24rem;
+}
+
+.container-md-custom {
+  max-width: 28rem;
+}
+
+.container-lg-custom {
+  max-width: 56rem;
+}
+
+.container-xl-custom {
+  max-width: 72rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 50px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile-first responsive utilities */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
